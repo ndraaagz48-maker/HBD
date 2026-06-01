@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        body {
+    background-color: #C8A2C8; 
+    
+    background-image: 
+        radial-gradient(#ffffff 2px, transparent 3px), /* Inti tengah bunga (putih) */
+        radial-gradient(#f9d5e5 4px, transparent 5px), /* Kelopak bunga 1 (pink muda) */
+        radial-gradient(#f9d5e5 4px, transparent 5px), /* Kelopak bunga 2 */
+        radial-gradient(#f9d5e5 4px, transparent 5px), /* Kelopak bunga 3 */
+        radial-gradient(#f9d5e5 4px, transparent 5px);/* Kelopak bunga 4 */
+        
+    /* Mengatur posisi kelopak melingkari inti putihnya agar membentuk bunga */
+    background-position: 
+        0 0, 
+        -4px -4px, 
+        4px -4px, 
+        -4px 4px, 
+        4px 4px;
+        
+    /* Mengatur ukuran space antar bunga (jarak kerapatan pattern bunga) */
+    background-size: 40px 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.cake-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.candle,.layer-top,.layer-middle,.layer-bottom,.text-birthday,.plate {
+    opacity: 0;
+    animation-name: fall;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    animation-fill-mode: forwards;
+}
+.layer-bottom {animation-delay: 0.3s;}
+.layer-middle {
+    animation-name: fallMiddle;
+    animation-delay: 0.6s;}
+.layer-top {animation-delay: 0.9s;}
+.frosting-animasi {animation-name: frostingCrot;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards; 
+    animation-delay: 1.5s;
+    opacity: 0;}
+.candle{animation-delay: 1.8s;}
+.text-birthday {
+    animation-name: fadeIn;
+    animation-delay: 2.1s;
+    animation-duration: 1s;
+}
+
+.candle {
+    width: 12px;
+    height: 50px;
+    background: linear-gradient(to right, #e74c3c, #f1c40f);
+    border-radius: 4px;
+    position: relative;
+    bottom: -30px;
+    z-index: 1;
+}
+.flame {
+    width: 20px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ffef8a 0%, #ff9d00 60%, #e74c3c 100%);
+    border-radius: 50% 50% 35% 35%;
+    position: absolute;
+    top: -34px;
+    left: -4px;
+    box-shadow: 0 0 15px rgba(255, 157, 0, 0.8);
+    box-shadow: 0 0 30px rgba(255, 157, 0, 0.5);
+    opacity: 0;
+    animation: flicker 0.6s infinite alternate ease-in-out,
+                fadeIn 2s ease-out forwards;
+    animation-delay: 2.5s;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.flame.extinguish {
+    opacity: 0 !important;
+    transform: translateY(-10px) scaleY(0) !important;
+    animation: none !important;
+    box-shadow: 0 0 0px rgba(255, 157, 0, 0) !important;
+}
+.table-top{
+    position: absolute;
+    width: 293px;
+    height: 20px;
+    background-color: #3A1F0E;
+    border-radius: 10px 10px 0 0;
+    bottom: -23px;
+    left: -37px;
+}
+
+.table-legleft{
+    position: absolute;
+    width: 20px;
+    height: 60px;
+    background-color: #3A1F0E;
+    bottom: -80px;
+    left: -35px;
+}   
+.table-legright{
+    position: absolute;
+    width: 20px;
+    height: 60px;
+    background-color: #3A1F0E;
+    bottom: -80px;
+    right: -35px;
+}
+.plate{
+    position: absolute;
+    width: 260px;
+    height: 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    bottom: -5px;
+    left: -15px;
+    z-index: 6;
+    opacity: 0;
+    animation: fadeIn 0.4s ease-out forwards;
+    animation-delay: 0.1s;}
+    .cake {
+    position: relative;
+    width: 220px;
+    height: 120px;
+}
+.frosting-animasi {
+    position: absolute;
+    width: 75%;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 12px 12px 0 0;
+    z-index: 5;
+    top: 27px;
+    right: 25px;
+    border-radius: 12px 12px 0 0;
+    background-image: 
+    linear-gradient(#ffffff, #ffffff),
+    radial-gradient(circle at 15% 75%, #ffffff 16px, transparent 17px),
+    radial-gradient(circle at 35% 75%, #ffffff 12px, transparent 13px),
+    radial-gradient(circle at 55% 75%, #ffffff 18px, transparent 19px),
+    radial-gradient(circle at 75% 75%, #ffffff 14px, transparent 15px),
+    radial-gradient(circle at 90% 75%, #ffffff 15px, transparent 14px);
+    background-size: 100% 30px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-repeat: no-repeat;
+}
+.frosting-animasi::after {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 20px;
+    width: 12px;
+    height: 20px;
+    background-color: #ffffff;
+    border-radius: 0 0 6px 6px;
+}
+.layer {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+}
+.layer-top { background-color: #a8775e; width: 85%; top: 51px; right: 14px; height: 20px; z-index: 4; }
+.layer-middle { background-color: #ffffff; width: 95%; top: 71px; right: 7px;height: 5px; z-index: 3; }
+.layer-bottom { background-color: #53250e; top: 76px; height: 40px; border-radius: 0 0 12px 12px; z-index: 2; }
+
+.text-birthday {
+    text-align: center;
+    color: #510a0a;
+    font-size: 20px;
+    margin-top: 30px;
+    transform: translateY(0) !important;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 15px 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.cake-container.shift-left {
+    transform: translateX(-450px);
+}
+.btn-tiup{
+    position:absolute;
+    top: 470px;
+    transform: translateY(0) !important;
+    background-color: #665c5c;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    padding: 10px 35px;
+    border-radius: 30px; /* Bikin bentuk lonjong */
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 3.5s;
+   }
+   
+@keyframes fall {
+    0% {
+        transform: translateY(-200px) scaleY(2.5); border-radius: 5px 5px 5px 5px; opacity: 0;}
+     70% {
+        transform: translateY(0px) scaleY(0.8);border-radius: 50% 50% 5px 5px; opacity: 1;}
+     85% {
+        transform: translateY(-2px) scaleY(1.05);border-radius: 15px 15px 5px 5px; opacity: 1;}
+     100% {
+        transform: translateY(0px) scaleY(1);border-radius: 5px 5px 5px 5px; opacity: 1;}
+     }
+@keyframes fallMiddle {
+    0% {
+        transform: translateY(-200px) scaleY(2.5); opacity: 0;}
+     65% {
+        transform: translateY(0px) scaleY(0.8);border-radius: 5px 5px 40% 40% / 5px 5px 15px 15px ; opacity: 1;}
+     85% {
+        transform: translateY(-2px) scaleY(1.1);border-radius: 5px 5px 15px 15px / 5px 5px 5px 5px; opacity: 1;}
+     100% {
+        transform: translateY(0px) scaleY(1);border-radius: 5px; opacity: 1;}
+}
+@keyframes frostingCrot {
+    0% {
+        transform: translateY(-200px) scaleY(4); opacity: 0;
+    }
+     60% {
+        transform: translateY(3px) scaleY(0.6);border-radius: 50% 50% 0 0 / 20% 20% 0 0; opacity: 1;
+    }
+     85% {
+        transform: translateY(-2px) scaleY(1.2); opacity: 1;
+    }
+     100% {
+        transform: translateY(0px) scaleY(1); opacity: 1;
+    }
+
+    }
+
+@keyframes flicker {
+    0% { transform: scale(1); rotate: -2deg;}
+    100% { transform: scale(1.1); rotate: 2deg; opacity: 0.9;}
+}
+@keyframes fadeIn {
+    to { opacity: 1;}} 
+    .drop {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+       background-color: #ffffff;
+        border-radius: 50%;
+        opacity: 0;
+        z-index: 6;
+    }
+    .drop-1{
+        right: 30px;
+        top: 40px;
+        animation: dripAnimation 1s ease-in forwards;
+        animation-delay: 0.1s;
+    }
+    .drop-2{
+        right: 12px;
+        top: 40px;
+        animation: dripAnimation 1.2s ease-in forwards;
+        animation-delay: 0.3s;
+    }
+    @keyframes dripAnimation{
+        0% {transform: translateY(0) scaleY(1); opacity: 0;}
+        20% {opacity: 1; transform: translateY(0) scaleY(1.5);}
+        100% {transform: translateY(300px) scaleY(1); opacity: 0;}
+    }
+    </style>
+</head>
+<body>
+
+    <div class="cake-container">
+        <!-- Lilin -->
+        <div class="candle" id="candle">
+            <div class="flame" id="flame"></div>
+        </div>
+        <div class="drop drop-1"></div>
+        <div class="drop drop-2"></div>
+        
+        <!-- Kue Berlapis -->
+        <div class="cake"> 
+            <div class="frosting-animasi"></div>
+            <div class="layer layer-top"></div>
+            <div class="layer layer-middle"></div>
+            <div class="layer layer-bottom"></div>
+            <div class="plate"></div>
+            <div class="table-top"></div>
+            <div class="table-legleft"></div>
+            <div class="table-legright"></div>
+         </div>   
+
+        <!-- Ucapan -->
+        <h1 class="text-birthday">SELAMAT YA<br><span></span></h1>
+    </div>
+    <button class="btn-tiup" id="btnTiup">Tiup</button>
+
+    <script>
+        window.onload = function(){
+        const candle = document.getElementById('candle');
+        const btnTiup = document.getElementById('btnTiup')
+        const flame = document.getElementById('flame');
+        const container = document.querySelector('.cake-container');
+        const music = document.getElementById('music');
+        // Logika ketika lilin diklik
+       
+        btnTiup.addEventListener('click',function() {
+            music.play();
+            flame.classList.add('extinguish');
+            btnTiup.style.display = 'none';
+
+            setTimeout(() => {
+                container.classList.add('shift-left');
+                }
+        , 650);
+        });
+    }
+        ; </script> <audio id="music" src="Multo.mp3" autoplay></audio>
+</body>
+</html>
